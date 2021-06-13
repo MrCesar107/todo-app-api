@@ -26,6 +26,18 @@ Devise.setup do |config|
   # with default "from" parameter.
   config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
 
+  # JWT config
+  config.jwt do |jwt|
+    jwt.secret = ENV['JWT_TOKEN']
+    jwt.dispatch_requests = [
+      ['POST', %r{^/api/login$}]
+    ]
+    jwt.revocation_requests = [
+      ['DELETE', %r{^/api/logout$}]
+    ]
+    jwt.expiration_time = 1.day.to_i
+  end
+
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
 

@@ -28,3 +28,4 @@
 
 .vscode
 .rbenv-gemsets
+/config/env_variables.rb

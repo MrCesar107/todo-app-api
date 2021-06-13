@@ -29,8 +29,8 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'active_model_serializers'
 gem 'active_type'
 gem 'devise'
+gem 'devise-jwt'
 gem 'json_schemer'
-gem 'jwt'
 gem 'simple_command'
 
 group :development, :test do
