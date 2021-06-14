@@ -40,6 +40,8 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.include UserHelpers
+  config.include ApiHelpers
+  config.include JSONAPI::RSpec
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false

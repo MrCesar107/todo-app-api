@@ -123,6 +123,9 @@ GEM
       regexp_parser (~> 2.0)
       uri_template (~> 0.7)
     jsonapi-renderer (0.2.2)
+    jsonapi-rspec (0.0.11)
+      rspec-core
+      rspec-expectations
     jwt (2.2.3)
     listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -242,6 +245,7 @@ DEPENDENCIES
   factory_bot_rails
   ffaker
   json_schemer
+  jsonapi-rspec
   listen (~> 3.3)
   pg (~> 1.1)
   puma (~> 5.0)

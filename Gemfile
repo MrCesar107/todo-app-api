@@ -48,6 +48,7 @@ end
 group :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails'
+  gem 'jsonapi-rspec'
   gem 'rspec-rails', '~> 4.1.0'
   gem 'shoulda-matchers'
 end
