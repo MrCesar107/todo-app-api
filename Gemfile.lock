@@ -102,8 +102,6 @@ GEM
       dry-configurable (~> 0.1, >= 0.1.3)
     dry-core (0.6.0)
       concurrent-ruby (~> 1.0)
-    ecma-re-validator (0.3.0)
-      regexp_parser (~> 2.0)
     erubi (1.10.0)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
@@ -112,20 +110,25 @@ GEM
       railties (>= 5.0.0)
     ffaker (2.18.0)
     ffi (1.15.1)
+    foreman (0.87.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    hana (1.3.7)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
-    json_schemer (0.2.18)
-      ecma-re-validator (~> 0.3)
-      hana (~> 1.3)
-      regexp_parser (~> 2.0)
-      uri_template (~> 0.7)
+    jsonapi-deserializable (0.2.0)
+    jsonapi-parser (0.1.1)
+    jsonapi-rails (0.4.0)
+      jsonapi-parser (~> 0.1.0)
+      jsonapi-rb (~> 0.5.0)
+    jsonapi-rb (0.5.0)
+      jsonapi-deserializable (~> 0.2.0)
+      jsonapi-serializable (~> 0.3.0)
     jsonapi-renderer (0.2.2)
     jsonapi-rspec (0.0.11)
       rspec-core
       rspec-expectations
+    jsonapi-serializable (0.3.1)
+      jsonapi-renderer (~> 0.2.0)
     jwt (2.2.3)
     listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -183,7 +186,6 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    regexp_parser (2.1.1)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -218,7 +220,6 @@ GEM
     thor (1.1.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
-    uri_template (0.7.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     warden-jwt_auth (0.5.0)
@@ -244,7 +245,8 @@ DEPENDENCIES
   devise-jwt
   factory_bot_rails
   ffaker
-  json_schemer
+  foreman
+  jsonapi-rails
   jsonapi-rspec
   listen (~> 3.3)
   pg (~> 1.1)

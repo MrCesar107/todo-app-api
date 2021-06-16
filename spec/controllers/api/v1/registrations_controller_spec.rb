@@ -8,7 +8,8 @@ describe 'RegistrationsController', type: :request do
 
   context 'when creating a new user' do
     before do
-      post '/api/v1/signup', params: { user: { email: user.email, password: user.password } }
+      post '/api/v1/signup', params: { user: { name: user.name, username: user.username,
+                                               email: user.email, password: user.password } }
     end
 
     it 'returns 200' do
@@ -26,7 +27,8 @@ describe 'RegistrationsController', type: :request do
 
   context 'when an email already exists' do
     before do
-      post '/api/v1/signup', params: { user: { email: existing_user.email, password: existing_user.password } }
+      post '/api/v1/signup', params: { user: { name: existing_user.name, username: existing_user.username,
+                                               email: existing_user.email, password: existing_user.password } }
     end
 
     it 'returns 400' do
