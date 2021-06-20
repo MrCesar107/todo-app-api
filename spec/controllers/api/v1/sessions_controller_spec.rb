@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'SessionsController', type: :request do
+describe SessionsController, type: :request do
   let(:user) { create_user }
 
   context 'when logging in' do
