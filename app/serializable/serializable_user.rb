@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SerializableUser < JSONAPI::Serializable::Resource
+class SerializableUser < JSONAPI::Serializable::Resource # :nodoc:
   type 'users'
 
   attributes :name, :username, :email
@@ -8,5 +8,4 @@ class SerializableUser < JSONAPI::Serializable::Resource
   link :self do
     @url_helpers.api_v1_user_url(@object.id)
   end
-
 end

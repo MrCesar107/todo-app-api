@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API # :nodoc:
-  def api_response(resource)    
+  def api_response(resource)
     if resource.errors.empty?
       render jsonapi: resource
     else

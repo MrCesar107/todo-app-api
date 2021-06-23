@@ -17,7 +17,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1, defaults: { format: :json } do
-      resources :users, only: %w[show]
+      resources :users, only: %w[show] do
+        resources :workspaces, controller: 'users/workspaces'
+      end
     end
   end
 end
