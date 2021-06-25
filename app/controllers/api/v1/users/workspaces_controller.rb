@@ -18,6 +18,22 @@ module Api
           render jsonapi: workspaces, status: :ok
         end
 
+        def update
+          if workspace.update(workspace_params) && workspace.valid?
+            api_response workspace
+          else
+            render json: { error: workspace.errors }, status: :bad_request
+          end
+        end
+
+        def destroy
+          if workspace.update status: 'inactive'
+            api_response workspace
+          else
+            render json: { error: workspace.errors }, status: :bad_request
+          end
+        end
+
         private
 
         def workspace_params
@@ -27,6 +43,10 @@ module Api
 
         def workspaces
           @workspaces ||= current_user.workspaces
+        end
+
+        def workspace
+          @workspace ||= Workspace.find params[:id]
         end
       end
     end

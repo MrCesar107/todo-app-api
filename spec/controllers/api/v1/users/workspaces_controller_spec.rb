@@ -21,6 +21,8 @@ describe Api::V1::Users::WorkspacesController, type: :request do
 
         expect(response.status).to eq 200
         expect(json['data']).to have_type 'workspaces'
+        expect(json['data']['attributes']['name']).to eq 'Test'
+        expect(json['data']['attributes']['user_id']).to eq user.id
       end
     end
 
@@ -43,18 +45,81 @@ describe Api::V1::Users::WorkspacesController, type: :request do
       create(:workspace, user_id: user.id)
     end
 
-    it 'returns 200 status' do
-      get @request_url,
-          headers: { 'Authorization': response.headers['Authorization'] }
-
-      expect(response.status).to eq 200
-    end
-
     it 'returns user workspaces' do
       get @request_url,
           headers: { 'Authorization': response.headers['Authorization'] }
 
+      expect(response.status).to eq 200
       expect(json['data'].count).to eq 2
+    end
+  end
+
+  describe 'PUT #update' do
+    before do
+      login_with_api user
+      subject = create(:workspace, user_id: user.id)
+      @request_url = "/api/v1/users/#{user.id}/workspaces/#{subject.id}"
+    end
+
+    it 'updates a workspace with given params' do
+      put @request_url,
+          headers: { 'Authorization': response.headers['Authorization'] },
+          params: {
+            workspace: { name: 'Change' }
+          }
+
+      expect(response.status).to eq 200
+      expect(json['data']['attributes']['name']).to eq 'Change'
+      expect(json['data']['attributes']['user_id']).to eq user.id
+    end
+
+    context 'when workspace is not found' do
+      before do
+        @request_url = "/api/v1/users/#{user.id}/workspaces/10"
+      end
+
+      it 'returns 404 status' do
+        put @request_url,
+            headers: { 'Authorization': response.headers['Authorization'] },
+            params: {
+              workspace: { name: 'Change' }
+            }
+
+        expect(response.status).to eq 404
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before do
+      login_with_api user
+      @subject = create(:workspace, user_id: user.id)
+      @request_url = "/api/v1/users/#{user.id}/workspaces/#{@subject.id}"
+    end
+
+    it 'doesnt find deleted record' do
+      delete @request_url,
+             headers: { 'Authorization': response.headers['Authorization'] }
+
+      expect(response.status).to eq 200
+      @subject.reload
+      expect(@subject.status).to eq 'inactive'
+    end
+
+    context 'when workspace is not found' do
+      before do
+        @request_url = "/api/v1/users/#{user.id}/workspaces/10"
+      end
+
+      it 'returns 404 status' do
+        put @request_url,
+            headers: { 'Authorization': response.headers['Authorization'] },
+            params: {
+              workspace: { name: 'Change' }
+            }
+
+        expect(response.status).to eq 404
+      end
     end
   end
 end
