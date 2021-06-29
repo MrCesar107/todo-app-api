@@ -2,35 +2,37 @@
 
 require 'rails_helper'
 
-describe Api::V1::Users::WorkspacesController, type: :request do
+describe Api::V1::ChartsController, type: :request do
   let(:user) { create_user }
+  let(:workspace) { create(:workspace, user_id: user.id) }
 
   describe 'POST #create' do
     before do
       login_with_api user
-      @request_url = "/api/v1/users/#{user.id}/workspaces"
+      @request_url = "/api/v1/workspaces/#{workspace.id}/charts"
     end
 
-    context 'When creating a new workspace' do
-      it 'returns workspace JSON' do
+    context 'When creating a new chart' do
+      it 'returns chart JSON' do
         post @request_url,
              headers: { 'Authorization': response.headers['Authorization'] },
              params: {
-               workspace: { name: 'Test' }
+               chart: { name: 'Test', description: 'This is a test' }
              }
 
         expect(response.status).to eq 200
-        expect(json['data']).to have_type 'workspaces'
+        expect(json['data']).to have_type 'charts'
         expect(json['data']['attributes']['name']).to eq 'Test'
-        expect(json['data']['attributes']['user_id']).to eq user.id
+        expect(json['data']['attributes']['description']).to eq 'This is a test'
+        expect(json['data']['attributes']['workspace_id']).to eq workspace.id
       end
     end
 
-    context 'When workspace params is missing' do
+    context 'When chart params is missing' do
       it 'returns a 400 status error' do
         post @request_url,
              headers: { 'Authorization': response.headers['Authorization'] },
-             params: { workspace: { name: nil } }
+             params: { chart: { name: nil, description: nil } }
 
         expect(response.status).to eq 400
       end
@@ -40,12 +42,12 @@ describe Api::V1::Users::WorkspacesController, type: :request do
   describe 'GET #index' do
     before do
       login_with_api user
-      @request_url = "/api/v1/users/#{user.id}/workspaces"
-      create(:workspace, user_id: user.id)
-      create(:workspace, user_id: user.id)
+      @request_url = "/api/v1/workspaces/#{workspace.id}/charts"
+      create(:chart, workspace_id: workspace.id)
+      create(:chart, workspace_id: workspace.id)
     end
 
-    it 'returns user workspaces' do
+    it 'returns charts from a workspace' do
       get @request_url,
           headers: { 'Authorization': response.headers['Authorization'] }
 
@@ -57,32 +59,33 @@ describe Api::V1::Users::WorkspacesController, type: :request do
   describe 'PUT #update' do
     before do
       login_with_api user
-      subject = create(:workspace, user_id: user.id)
-      @request_url = "/api/v1/users/#{user.id}/workspaces/#{subject.id}"
+      subject = create(:chart, workspace_id: workspace.id)
+      @request_url = "/api/v1/workspaces/#{workspace.id}/charts/#{subject.id}"
     end
 
-    it 'updates a workspace with given params' do
+    it 'updates a chart with given params' do
       put @request_url,
           headers: { 'Authorization': response.headers['Authorization'] },
           params: {
-            workspace: { name: 'Change' }
+            chart: { name: 'Change', description: 'Description has changed' }
           }
 
       expect(response.status).to eq 200
       expect(json['data']['attributes']['name']).to eq 'Change'
-      expect(json['data']['attributes']['user_id']).to eq user.id
+      expect(json['data']['attributes']['description']).to eq 'Description has changed'
+      expect(json['data']['attributes']['workspace_id']).to eq workspace.id
     end
 
-    context 'when workspace is not found' do
+    context 'when chart is not found' do
       before do
-        @request_url = "/api/v1/users/#{user.id}/workspaces/10"
+        @request_url = "/api/v1/workspaces/#{workspace.id}/charts/202"
       end
 
       it 'returns 404 status' do
         put @request_url,
             headers: { 'Authorization': response.headers['Authorization'] },
             params: {
-              workspace: { name: 'Change' }
+              chart: { name: 'Change' }
             }
 
         expect(response.status).to eq 404
@@ -93,8 +96,8 @@ describe Api::V1::Users::WorkspacesController, type: :request do
   describe 'DELETE #destroy' do
     before do
       login_with_api user
-      @subject = create(:workspace, user_id: user.id)
-      @request_url = "/api/v1/users/#{user.id}/workspaces/#{@subject.id}"
+      @subject = create(:chart, workspace_id: workspace.id)
+      @request_url = "/api/v1/workspaces/#{workspace.id}/charts/#{@subject.id}"
     end
 
     it 'doesnt find deleted record' do
@@ -108,7 +111,7 @@ describe Api::V1::Users::WorkspacesController, type: :request do
 
     context 'when workspace is not found' do
       before do
-        @request_url = "/api/v1/users/#{user.id}/workspaces/10"
+        @request_url = "/api/v1/workspaces/#{workspace.id}/charts/23493"
       end
 
       it 'returns 404 status' do

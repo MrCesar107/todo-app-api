@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2021_06_22_214921) do
   create_table "charts", force: :cascade do |t|
     t.string "name"
     t.text "description"
+    t.string "status", default: "active", null: false
     t.bigint "workspace_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
