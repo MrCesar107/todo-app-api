@@ -20,6 +20,9 @@ Rails.application.routes.draw do
       resources :workspaces do
         resources :charts
       end
+      resources :charts do
+        resources :tasks
+      end
     end
   end
 end

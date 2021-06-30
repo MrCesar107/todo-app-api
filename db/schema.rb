@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2021_06_22_214921) do
   create_table "tasks", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
+    t.string "status", default: "active", null: false
     t.bigint "chart_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
